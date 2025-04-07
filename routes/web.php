@@ -4,6 +4,13 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\CourseController;
+
+use App\Http\Controllers\User\UserDashboardController;
+
+
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,8 +18,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::resource('courses', App\Http\Controllers\Admin\CourseController::class);
+    Route::resource('sub-courses', App\Http\Controllers\Admin\SubCourseController::class);
+});
+
 
     // Middleware untuk Admin
     Route::middleware(['admin'])->group(function () {
@@ -36,4 +47,21 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+});
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::resource('courses', App\Http\Controllers\Admin\CourseController::class);
+    Route::resource('sub-courses', App\Http\Controllers\Admin\SubCourseController::class);
+});
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::resource('sub-courses', App\Http\Controllers\Admin\SubCourseController::class);
+});
+Route::get('/admin/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
+
+
+Route::post('/courses/{course}/like', [CourseController::class, 'like'])->name('courses.like');
+
+Route::middleware(['auth', 'user'])->group(function () {
+    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 });

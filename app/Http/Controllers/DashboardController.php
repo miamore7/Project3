@@ -9,9 +9,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->role == 'admin') {
-            return view('admin.dashboard');
-        }
-        return view('user.dashboard');
+        // Ambil data user yang sedang login
+        $user = Auth::user();
+
+        // Kirim data user ke view (kalau dibutuhkan)
+        return view('user.dashboard', compact('user'));
     }
 }
