@@ -62,4 +62,18 @@ class CourseController extends Controller
         $course->delete();
         return back()->with('success', 'Course berhasil dihapus');
     }
+
+    public function like(Course $course)
+{
+    $user = auth()->user();
+    if ($user->likedCourses()->where('course_id', $course->id)->exists()) {
+        // Jika sudah like, maka un-like
+        $user->likedCourses()->detach($course->id);
+    } else {
+        $user->likedCourses()->attach($course->id);
+    }
+
+    return back();
+}
+
 }

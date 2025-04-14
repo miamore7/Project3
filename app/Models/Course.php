@@ -25,5 +25,8 @@ class Course extends Model
 {
     return $this->belongsTo(User::class, 'idUser');
 }
+public function likedByUsers() {
+    return $this->belongsToMany(User::class, 'likes');
+}
 
 }
