@@ -1,0 +1,15 @@
+1. Tampilan diubah
+    a. Landing Page
+    b. Login
+    c. Register
+    d. Dashboard Admin
+    e. Dashboard user
+    f. Kelola Course
+    g. Edit Course
+    h. Kelola Sub Course
+    i. Tambah Sub Course
+    j. Edit Sub Course
+    k. Edit Profile Admin
+    l. View Profile Admin
+    m. View Course (Dari sisi user)
+    n. View Details Course

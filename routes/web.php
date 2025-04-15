@@ -39,7 +39,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         })->name('user.dashboard');
     });
 
-  
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
@@ -58,7 +58,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::resource('sub-courses', App\Http\Controllers\Admin\SubCourseController::class);
 });
 Route::get('/admin/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
-
 
 Route::post('/courses/{course}/like', [CourseController::class, 'like'])->name('courses.like');
 
