@@ -4,6 +4,7 @@
     <div class="container mx-auto py-8 px-4">
         <h1 class="text-3xl font-bold mb-2">{{ $course->nama_course }}</h1>
         <p class="text-gray-600 mb-4">Dibuat oleh: {{ $course->user->name ?? 'Tidak diketahui' }}</p>
+        
         @php
             function getYoutubeEmbedUrl($url)
             {
@@ -28,6 +29,8 @@
 
         <p class="mb-8 text-gray-700">{{ $course->description }}</p>
 
+        <!-- Only show 'Tambah SubCourse' button if the user is an admin -->
+        @if(Auth::user()->role == 'admin')  <!-- Assuming the role is stored as 'admin' -->
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-semibold">Sub Courses</h2>
             <a href="{{ route('sub-courses.create', ['course_id' => $course->id]) }}"
@@ -35,6 +38,7 @@
                 + Tambah SubCourse
             </a>
         </div>
+        @endif
 
         <div class="grid md:grid-cols-2 gap-4">
             @foreach ($subCourses as $sub)
@@ -53,6 +57,8 @@
                         <p class="text-red-400 text-sm">Link video tidak valid.</p>
                     @endif
 
+                    <!-- Only show Edit and Delete buttons if the user is an admin -->
+                    @if(Auth::user()->role == 'admin')
                     <div class="flex gap-3">
                         <a href="{{ route('sub-courses.edit', $sub) }}" class="text-blue-600 hover:underline">Edit</a>
                         <form method="POST" action="{{ route('sub-courses.destroy', $sub) }}">
@@ -60,6 +66,7 @@
                             <button type="submit" class="text-red-600 hover:underline">Hapus</button>
                         </form>
                     </div>
+                    @endif
                 </div>
             @endforeach
         </div>
