@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="bg-white rounded-lg p-6 mt-10 mb-10">
+    <div class=" rounded-lg p-6 mt-10 mb-10">
         <div style="margin-bottom: 30px;" class="text-center text-bold">
             <h1 class="mb-4 font-bold text-5xl">Find your right mentor</h1>
             <p class="text-gray-800 line-height-1.5 text-2xl">Learn from experts
