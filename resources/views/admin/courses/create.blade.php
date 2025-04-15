@@ -1,42 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-2xl mx-auto mt-10 bg-white p-8 rounded shadow">
-    <h1 class="text-2xl font-bold mb-6">Tambah Course</h1>
+<div class="container mt-5">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1 class="h4 mb-4 fw-bold">Tambah Course</h1>
 
-    {{-- Tampilkan error validasi --}}
-    @if ($errors->any())
-        <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
-            <ul class="list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+                {{-- Tampilkan error validasi --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('courses.store') }}">
+                    @csrf
+
+                    <div class="mb-3">
+                        <label for="nama_course" class="form-label">Nama Course</label>
+                        <input type="text" name="nama_course" id="nama_course" class="form-control" required value="{{ old('nama_course') }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="link_video" class="form-label">Link Video</label>
+                        <input type="url" name="link_video" id="link_video" class="form-control" value="{{ old('link_video') }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Deskripsi</label>
+                        <textarea name="description" id="description" rows="4" class="form-control">{{ old('description') }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ route('courses.index') }}" class="btn btn-secondary me-2">Batal</a>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    @endif
-
-    <form method="POST" action="{{ route('courses.store') }}">
-        @csrf
-
-        <div class="mb-4">
-            <label for="nama_course" class="block font-semibold mb-1">Nama Course</label>
-            <input type="text" name="nama_course" id="nama_course" class="w-full border rounded px-3 py-2" required value="{{ old('nama_course') }}">
-        </div>
-
-        <div class="mb-4">
-            <label for="link_video" class="block font-semibold mb-1">Link Video</label>
-            <input type="url" name="link_video" id="link_video" class="w-full border rounded px-3 py-2" value="{{ old('link_video') }}">
-        </div>
-
-        <div class="mb-4">
-            <label for="description" class="block font-semibold mb-1">Deskripsi</label>
-            <textarea name="description" id="description" rows="4" class="w-full border rounded px-3 py-2">{{ old('description') }}</textarea>
-        </div>
-
-        <div class="flex justify-end">
-            <a href="{{ route('courses.index') }}" class="px-4 py-2 mr-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Batal</a>
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Simpan</button>
-        </div>
-    </form>
+    </div>
 </div>
 @endsection
