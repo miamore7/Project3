@@ -12,6 +12,9 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRAB2fY1Gz2z5k1Xz8gWi6jo0DP78Vs5Z3vVXI4brO3fF9Kk7tVZz5Ndu" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -86,5 +89,20 @@
             @yield('content')
         </main>
     </div>
+    <footer style="background-color: #333; color: #fff; padding: 20px 0; margin-top: 40px; text-align: center;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <p style="font-size: 14px; margin-bottom: 10px;">&copy; 2025 Find Your Mentor. All Rights Reserved.</p>
+        <div>
+            <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px; font-size: 16px;">Privacy Policy</a>
+            <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px; font-size: 16px;">Terms of Service</a>
+            <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px; font-size: 16px;">Contact Us</a>
+        </div>
+    </div>
+</footer>
+<!-- Bootstrap Bundle JS (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Alpine.js (if needed for other parts) -->
+<script src="//unpkg.com/alpinejs" defer></script>
 </body>
 </html>
