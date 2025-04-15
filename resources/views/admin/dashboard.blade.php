@@ -27,7 +27,7 @@
 
     {{-- Navigasi --}}
     <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <a href="{{ route('courses.index') }}" class="block bg-green-100 hover:bg-green-200 text-green-900 p-6 rounded-xl shadow-lg transition">
+        <a href="{{ route('courses.index') }}" class="block text-green-900 p-6 rounded-xl shadow-lg transition">
             <div class="flex items-center space-x-4">
                 <div class="text-4xl">📚</div>
                 <div>
@@ -37,7 +37,7 @@
             </div>
         </a>
 
-        <a href="{{ route('sub-courses.index') }}" class="block bg-green-100 hover:bg-green-200 text-green-900 p-6 rounded-xl shadow-lg transition">
+        <a href="{{ route('sub-courses.index') }}" class="block text-green-900 p-6 rounded-xl shadow-lg transition">
             <div class="flex items-center space-x-4">
                 <div class="text-4xl">🧩</div>
                 <div>
