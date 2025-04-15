@@ -7,8 +7,10 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Amore') }}</title>
+    {{-- change title to be "Amore" --}}
+    <meta name="description" content="Amore - Find Your Mentor">
+    {{-- <title>{{ config('app.name', 'Amore') }}</title> --}}
+    <title>Amore - Find Your Mentor</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -30,12 +32,12 @@
 
 </head>
 
-<body>
+<body class="bg-gray-100 anti-aliasing">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Amore') }}
+                    Amore
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -106,20 +108,26 @@
         <main class="py-4">
             @yield('content')
         </main>
-    </div>
-    <footer style="background-color: #333; color: #fff; padding: 20px 0; margin-top: 40px; text-align: center;">
-        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-            <p style="font-size: 14px; margin-bottom: 10px;">&copy; 2025 Find Your Mentor. All Rights Reserved.</p>
-            <div>
-                <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px; font-size: 16px;">Privacy
-                    Policy</a>
-                <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px; font-size: 16px;">Terms of
-                    Service</a>
-                <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px; font-size: 16px;">Contact
-                    Us</a>
+
+        {{-- floats on the bottom of screen --}}
+        <footer class="bg-gray-800 text-white text-center py-4 mt-auto fixed-bottom">
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                <p style="font-size: 14px; margin-bottom: 10px;">&copy; 2025 Find Your Mentor. All Rights Reserved.</p>
+                <div>
+                    <a href="#"
+                        style="color: #fff; text-decoration: none; margin: 0 10px; font-size: 16px;">Privacy
+                        Policy</a>
+                    <a href="#" style="color: #fff; text-decoration: none; margin: 0 10px; font-size: 16px;">Terms
+                        of
+                        Service</a>
+                    <a href="#"
+                        style="color: #fff; text-decoration: none; margin: 0 10px; font-size: 16px;">Contact
+                        Us</a>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
+
     <!-- Bootstrap Bundle JS (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 
