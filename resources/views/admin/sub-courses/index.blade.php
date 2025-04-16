@@ -4,8 +4,8 @@
 <div class="container mx-auto py-6">
     <h1 class="text-2xl font-bold mb-4">Daftar SubCourse</h1>
 
-    <a href="{{ route('sub-courses.create') }}" class="inline-block mb-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-        ➕ Tambah SubCourse
+    <a href="{{ route('sub-courses.create') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition" style="text-decoration: none;">
+        + Tambah SubCourse
     </a>
 
     <ul class="space-y-4">
