@@ -22,5 +22,19 @@ class User extends Authenticatable
     public function likedCourses() {
         return $this->belongsToMany(Course::class, 'likes');
     }
-    
+    public function forumRequests()
+{
+    return $this->hasMany(ForumUserRequest::class);
+}
+
+public function forums()
+{
+    return $this->belongsToMany(Forum::class, 'forum_members')->withTimestamps()->withPivot('joined_at');
+}
+
+public function forumMessages()
+{
+    return $this->hasMany(ForumMessage::class);
+}
+
 }

@@ -46,6 +46,33 @@
                 </div>
             </div>
         </a>
+
+        <a href="{{ route('admin.forums.index') }}" class="block text-green-900 p-6 rounded-xl shadow-lg transition">
+            <div class="flex items-center space-x-4">
+                <div class="text-4xl">💬</div>
+                <div>
+                    <h3 class="text-xl font-semibold">Kelola Forum</h3>
+                    <p class="text-sm text-green-800">Buat dan atur forum diskusi pengguna.</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ route('admin.forum.requests') }}" class="block text-green-900 p-6 rounded-xl shadow-lg transition">
+            <div class="flex items-center space-x-4">
+                <div class="text-4xl">📥</div>
+                <div>
+                    <h3 class="text-xl font-semibold">Permintaan Join Forum</h3>
+                    <p class="text-sm text-green-800">
+                        Tinjau & kelola permintaan user untuk bergabung forum.
+                        @if(isset($jumlahRequestPending) && $jumlahRequestPending > 0)
+                            <span class="inline-block bg-red-500 text-white text-xs px-2 py-1 rounded-full ml-2">
+                                {{ $jumlahRequestPending }} pending
+                            </span>
+                        @endif
+                    </p>
+                </div>
+            </div>
+        </a>
     </div>
 </div>
 @endsection
