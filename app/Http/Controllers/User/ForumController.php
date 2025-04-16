@@ -11,9 +11,20 @@ class ForumController extends Controller
 {
     public function index()
     {
+        $userId = Auth::id();
         $forums = Forum::all();
-        return view('user.forums.index', compact('forums'));
+    
+        // Ambil semua request join yang sudah dikirim user
+        $requestedForums = ForumUserRequest::where('user_id', $userId)->pluck('forum_id')->toArray();
+    
+        // Ambil semua forum yang sudah disetujui/dijoin user
+        $joinedForums = Forum::whereHas('members', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->pluck('id')->toArray();
+    
+        return view('user.forums.index', compact('forums', 'requestedForums', 'joinedForums'));
     }
+    
 
     public function requestJoin($forumId)
     {
