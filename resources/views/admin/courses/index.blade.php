@@ -17,8 +17,8 @@
                     <p class="text-sm text-gray-600 mb-2">Oleh: {{ $course->user->name }}</p>
 
                     <div class="flex gap-4 mb-4">
-                        <a href="{{ route('courses.edit', $course) }}" class="text-blue-600 hover:underline">Edit</a>
-                        <a href="{{ route('courses.show', $course) }}" class="text-green-600 hover:underline">Detail</a>
+                        <a href="{{ route('courses.edit', $course) }}" class="text-blue-600 hover:underline" style="text-decoration: none;">Edit</a>
+                        <a href="{{ route('courses.show', $course) }}" class="text-green-600 hover:underline" style="text-decoration: none;">Detail</a>
                         <form method="POST" action="{{ route('courses.destroy', $course) }}">
                             @csrf @method('DELETE')
                             <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>

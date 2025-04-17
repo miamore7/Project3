@@ -34,7 +34,7 @@
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-semibold">Sub Courses</h2>
             <a href="{{ route('sub-courses.create', ['course_id' => $course->id]) }}"
-                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition" style="text-decoration: none;">
                 + Tambah SubCourse
             </a>
         </div>

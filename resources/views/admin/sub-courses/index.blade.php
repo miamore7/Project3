@@ -8,7 +8,7 @@
         + Tambah SubCourse
     </a>
 
-    <ul class="space-y-4">
+    <ul class="space-y-8 w-full">
         @foreach($subCourses as $sub)
             <li class="p-4 bg-white rounded shadow">
                 <h2 class="text-lg font-semibold">{{ $sub->nama_course }}</h2>
@@ -16,7 +16,7 @@
                 <p class="text-sm text-gray-600">Oleh: {{ $sub->user->name ?? '-' }}</p>
 
                 <div class="mt-2 flex space-x-2">
-                    <a href="{{ route('sub-courses.edit', $sub) }}" class="text-blue-600 hover:underline">✏️ Edit</a>
+                    <a href="{{ route('sub-courses.edit', $sub) }}" class="text-blue-600 hover:underline" style="text-decoration: none;">✏️ Edit</a>
 
                     <form method="POST" action="{{ route('sub-courses.destroy', $sub) }}" onsubmit="return confirm('Yakin ingin menghapus sub-course ini?');">
                         @csrf
