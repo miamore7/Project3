@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container mx-auto py-8 px-4">
+        <!-- Menampilkan notifikasi jika ada session success -->
+        @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-6">
+                {{ session('success') }}
+            </div>
+        @endif
+    </div>
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-6">Edit Course</h1>
         <form method="POST" class="card p-4 " action="{{ route('courses.update', $course) }}">

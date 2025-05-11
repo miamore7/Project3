@@ -4,11 +4,25 @@
 <div class="container mx-auto py-6">
     <h1 class="text-2xl font-bold mb-4">Daftar SubCourse</h1>
 
-    <a href="{{ route('sub-courses.create') }}" class="inline-block mb-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-        ➕ Tambah SubCourse
+    <!-- Flash Message for Success -->
+    @if(session('success'))
+        <div class="bg-green-500 text-white p-4 rounded mb-4">
+            <strong>Berhasil!</strong> {{ session('success') }}
+        </div>
+    @endif
+
+    <!-- Flash Message for Error -->
+    @if(session('error'))
+        <div class="bg-red-500 text-white p-4 rounded mb-4">
+            <strong>Gagal!</strong> {{ session('error') }}
+        </div>
+    @endif
+
+    <a href="{{ route('sub-courses.create') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition" style="text-decoration: none;">
+        + Tambah SubCourse
     </a>
 
-    <ul class="space-y-4">
+    <ul class="space-y-4 mt-4">
         @foreach($subCourses as $sub)
             <li class="p-4 bg-white rounded shadow">
                 <h2 class="text-lg font-semibold">{{ $sub->nama_course }}</h2>
