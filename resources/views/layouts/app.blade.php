@@ -110,7 +110,7 @@
         </main>
 
         {{-- floats on the bottom of screen --}}
-        <footer class="bg-gray-800 text-white text-center py-4 mt-auto fixed-bottom">
+        <footer class="bg-gray-800 text-white text-center py-2 mt-auto fixed-bottom">
             <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
                 <p style="font-size: 14px; margin-bottom: 10px;">&copy; 2025 Find Your Mentor. All Rights Reserved.</p>
                 <div>
