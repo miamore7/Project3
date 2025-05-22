@@ -50,8 +50,8 @@
             </a>
         </nav>
 
-        <!-- User Menu at Bottom -->
-        <div class="mt-auto border-t">
+        User Menu at Bottom
+        <!-- <div class="mt-auto border-t">
             <div class="px-4 py-2 text-sm font-medium text-gray-500 uppercase tracking-wider">
                 User Menu
             </div>
@@ -73,7 +73,7 @@
                     Logout
                 </button>
             </form>
-        </div>
+        </div> -->
     </div>
 
     <!-- Main Content -->
