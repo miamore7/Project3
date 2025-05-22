@@ -11,7 +11,7 @@
     </div>
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-6">Edit Course</h1>
-        <form method="POST" class="card p-4 " action="{{ route('courses.update', $course) }}">
+        <form method="POST" class="card p-4 " action="{{ route('admin.courses.update', $course) }}">
             @csrf
             @method('PUT')
             <label for="nama_course" class="text-sm font-semibold">Nama Course</label>

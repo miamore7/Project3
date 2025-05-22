@@ -79,7 +79,7 @@
                                     </a>
 
                                     {{-- view course --}}
-                                    <a class="dropdown-item" href="{{ route('courses.index') }}">
+                                    <a class="dropdown-item" href="{{ route('admin.courses.index') }}">
                                         {{ __('My Courses') }}
 
                                         <a class="dropdown-item" href="{{ route('profile.edit') }}">

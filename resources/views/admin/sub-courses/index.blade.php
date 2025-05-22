@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container mx-auto py-8 px-4">
+        <!-- Menampilkan notifikasi jika ada session success -->
+        @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-6">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Konten SubCourse -->
+        <h1 class="text-3xl font-bold mb-6">Daftar SubCourse</h1>
+        <!-- Isi daftar sub-course lainnya -->
+    </div>
 <div class="container mx-auto py-6">
     <h1 class="text-2xl font-bold mb-4">Daftar SubCourse</h1>
 
@@ -18,7 +30,7 @@
         </div>
     @endif
 
-    <a href="{{ route('sub-courses.create') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition" style="text-decoration: none;">
+    <a href="{{ route('admin.sub-courses.create') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition" style="text-decoration: none;">
         + Tambah SubCourse
     </a>
 

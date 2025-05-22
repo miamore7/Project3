@@ -1,26 +1,62 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Edit Sub Course</h1>
-    <form method="POST" class="card p-4 " action="{{ route('sub-courses.update', $sub_course) }}">
+
+<div class="container mx-auto py-8 px-4">
+    <!-- Menampilkan notifikasi jika ada session success -->
+    @if(session('success'))
+        <div class="bg-green-500 text-white p-4 rounded mb-6 shadow-md">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <h1 class="text-3xl font-bold text-center mb-6">Edit SubCourse</h1>
+
+    <form method="POST" class="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg" action="{{ route('sub-courses.update', $sub_course) }}">
         @csrf
         @method('PUT')
-        <label for="nama_course" class="text-sm font-semibold">Nama SubCourse</label>
-        <input type="text" name="nama_course" class="rounded"
-            value="{{ old('nama_course', $sub_course->nama_course) }}" required>
 
-        <br>
-        <label for="link_video" class="text-sm font-semibold">Link Video</label>
-        <input type="url" name="link_video" class="rounded"
-            value="{{ old('link_video', $sub_course->link_video) }}">
+        <!-- Nama SubCourse Input -->
+        <div class="mb-6">
+            <label for="nama_course" class="block text-sm font-semibold text-gray-700">Nama SubCourse</label>
+            <input 
+                type="text" 
+                name="nama_course" 
+                id="nama_course" 
+                class="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                value="{{ old('nama_course', $sub_course->nama_course) }}" 
+                required
+            >
+        </div>
 
-        <br>
-        <label for="Deskripsi" class="text-sm font-semibold">Deskripsi</label>
-        <textarea name="description" class="rounded">{{ old('description', $sub_course->description) }}</textarea><br>
+        <!-- Link Video Input -->
+        <div class="mb-6">
+            <label for="link_video" class="block text-sm font-semibold text-gray-700">Link Video</label>
+            <input 
+                type="url" 
+                name="link_video" 
+                id="link_video" 
+                class="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                value="{{ old('link_video', $sub_course->link_video) }}"
+            >
+        </div>
 
-        <button type="submit"
-            class="bg-red-400 hover:bg-blue-700 dark:text-white font-bold py-2 px-4 rounded">Simpan</button>
+        <!-- Deskripsi Input -->
+        <div class="mb-6">
+            <label for="description" class="block text-sm font-semibold text-gray-700">Deskripsi</label>
+            <textarea 
+                name="description" 
+                id="description" 
+                class="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                rows="4">{{ old('description', $sub_course->description) }}</textarea>
+        </div>
+
+        <div class="flex justify-center">
+            <button type="submit" class="w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                Simpan
+            </button>
+        </div>
     </form>
 </div>
+
 @endsection

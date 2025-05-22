@@ -4,7 +4,17 @@
 <div class="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-md mt-10">
     <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Tambah SubCourse</h1>
 
-    <form method="POST" action="{{ route('sub-courses.store') }}" class="space-y-5">
+    @if ($errors->any())
+        <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+            <ul class="list-disc pl-5 text-sm">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('admin.sub-courses.store') }}" class="space-y-5">
         @csrf
 
         <div>
@@ -37,6 +47,10 @@
         </div>
 
         <div class="flex justify-end">
+            <a href="{{ route('admin.sub-courses.index') }}"
+               class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mr-2" style="text-decoration: none;">
+                Batal
+            </a>
             <button type="submit"
                     class="px-6 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition duration-200">
                 Simpan

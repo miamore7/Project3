@@ -34,7 +34,7 @@ class CourseController extends Controller
             'idUser' => auth()->id(),
         ]);
 
-        return redirect()->route('courses.index')->with('success', 'Course berhasil ditambahkan');
+        return redirect()->route('admin.courses.index')->with('success', 'Course berhasil ditambahkan');
     }
 
     public function edit(Course $course)
@@ -52,7 +52,7 @@ class CourseController extends Controller
 
         $course->update($request->only('nama_course', 'link_video', 'description'));
 
-        return redirect()->route('courses.index')->with('success', 'Course berhasil diperbarui');
+        return redirect()->route('admin.courses.index')->with('success', 'Course berhasil diperbarui');
     }
 
     public function show(Course $course)
@@ -69,7 +69,7 @@ class CourseController extends Controller
         // Menambahkan flash message
         session()->flash('success', 'Course berhasil dihapus.');
     
-        return redirect()->route('courses.index');
+        return redirect()->route('admin.courses.index');
     }
     
     public function like(Course $course)

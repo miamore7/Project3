@@ -12,7 +12,7 @@
 <div class="container mx-auto py-8">
     <h1 class="text-3xl font-bold mb-6">Daftar Course</h1>
     <div class="flex justify-between items-center mb-4">
-        <a href="{{ route('courses.create') }}"
+        <a href="{{ route('admin.courses.create') }}"
             class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition" style="text-decoration: none;">
             + Tambah Course
         </a>
@@ -25,9 +25,9 @@
             <p class="text-sm text-gray-600 mb-2">Oleh: {{ $course->user->name }}</p>
 
             <div class="flex gap-4 mb-4">
-                <a href="{{ route('courses.edit', $course) }}" class="text-blue-600 hover:underline">Edit</a>
-                <a href="{{ route('courses.show', $course) }}" class="text-green-600 hover:underline">Detail</a>
-                <form method="POST" action="{{ route('courses.destroy', $course) }}">
+                <a href="{{ route('admin.courses.edit', $course) }}" class="text-blue-600 hover:underline">Edit</a>
+                <a href="{{ route('admin.courses.show', $course) }}" class="text-green-600 hover:underline">Detail</a>
+                <form method="POST" action="{{ route('admin.courses.destroy', $course) }}">
                     @csrf @method('DELETE')
                     <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
                 </form>

@@ -42,7 +42,7 @@
     @if(Auth::user()->role == 'admin')
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-semibold">Sub Courses</h2>
-        <a href="{{ route('sub-courses.create', ['course_id' => $course->id]) }}"
+        <a href="{{ route('admin.sub-courses.create', ['course_id' => $course->id]) }}"
             class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
             + Tambah SubCourse
         </a>
@@ -68,8 +68,8 @@
             <!-- Only show Edit and Delete buttons if the user is an admin -->
             @if(Auth::user()->role == 'admin')
             <div class="flex gap-3">
-                <a href="{{ route('sub-courses.edit', $sub) }}" class="text-blue-600 hover:underline">Edit</a>
-                <form method="POST" action="{{ route('sub-courses.destroy', $sub) }}">
+                <a href="{{ route('admin.sub-courses.edit', $sub) }}" class="text-blue-600 hover:underline">Edit</a>
+                <form method="POST" action="{{ route('admin.sub-courses.destroy', $sub) }}">
                     @csrf @method('DELETE')
                     <button type="submit" class="text-red-600 hover:underline">Hapus</button>
                 </form>

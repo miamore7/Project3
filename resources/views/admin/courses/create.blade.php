@@ -21,7 +21,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('courses.store') }}">
+                    <form method="POST" action="{{ route('admin.courses.store') }}">
                         @csrf
 
                         <div class="mb-3">
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <a href="{{ route('courses.index') }}" class="btn btn-secondary me-2">Batal</a>
+                            <a href="{{ route('admin.courses.index') }}" class="btn btn-secondary me-2">Batal</a>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
