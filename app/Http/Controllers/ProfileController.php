@@ -21,27 +21,24 @@ class ProfileController extends Controller
     }
 
     // Update Profil
-    public function update(Request $request)
-    {
-        $user = Auth::user();
+public function update(Request $request)
+{
+    $user = auth()->user();
+    
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'password' => 'nullable|confirmed|min:8',
+    ]);
 
-        // Validasi Input
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:6|confirmed',
-        ]);
-
-        // Update Data
-        $user->name = $request->name;
-        $user->email = $request->email;
-
-        if ($request->password) {
-            $user->password = bcrypt($request->password);
-        }
-
-        $user->save();
-
-        return redirect()->route('profile.show')->with('success', 'Profil berhasil diperbarui.');
+    $user->name = $request->name;
+    $user->email = $request->email;
+    if ($request->password) {
+        $user->password = bcrypt($request->password);
     }
+    $user->save();
+
+    return redirect()->back()->with('profile.updated', true);
+}
+
 }

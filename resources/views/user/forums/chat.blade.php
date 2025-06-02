@@ -1,68 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-8">
-    <h2 class="text-2xl font-bold mb-6 text-center">Chat Forum: {{ $forum->name }}</h2>
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-md border-r hidden md:block h-screen sticky top-0">
+        <div class="p-6">
+            <h2 class="text-xl font-bold mb-6 text-cyan-600">Menu</h2>
+            <ul class="space-y-4">
+                <li><a href="{{ route('user.dashboard') }}" class="text-gray-700 hover:text-cyan-600">🏠 Dashboard</a></li>
+                <li><a href="{{ route('user.forums.myforums') }}" class="text-gray-700 hover:text-cyan-600">💬 Forum Saya</a></li>
+                <li><a href="{{ route('user.forums.index') }}" class="text-gray-700 hover:text-cyan-600">📚 Daftar Forum</a></li>
+                <li><a href="{{ route('user.courses.index') }}" class="text-gray-700 hover:text-cyan-600">🎓 Daftar Course</a></li>
+                <li>
+                    <a href="{{ route('logout') }}" class="text-red-600 hover:text-red-700"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">🚪 Logout</a>
+                </li>
+            </ul>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
+        </div>
+    </aside>
 
-    <!-- Chat Window -->
-    <div class="chat-container" style="border:1px solid #ccc; padding:20px; margin-bottom:20px; height:400px; overflow-y:auto; border-radius:10px; background-color:#f9f9f9;">
-        @foreach($forum->messages as $msg)
-            <div class="message @if($msg->user_id == auth()->id()) message-sent @else message-received @endif mb-4">
-                <div class="message-header flex justify-between items-center">
-                    <strong class="text-sm">{{ $msg->user->name }}</strong>
-                    <small class="text-xs text-gray-500">{{ $msg->created_at->format('d M Y, H:i') }}</small>
-                </div>
-                <div class="message-body mt-2 p-2 rounded-lg @if($msg->user_id == auth()->id()) bg-blue-100 text-right @else bg-gray-100 text-left @endif">
-                    {{ $msg->message }}
-                </div>
+    <!-- Main Content -->
+    <main class="flex-1 p-6 bg-gray-50">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold mb-6 text-center text-cyan-700">💬 Forum: {{ $forum->name }}</h2>
+
+            <!-- Chat Messages -->
+            <div id="chat-box" class="bg-white border rounded-lg shadow-sm p-4 mb-6 h-96 overflow-y-auto space-y-4">
+                @forelse($forum->messages as $msg)
+                    <div class="flex flex-col {{ $msg->user_id == auth()->id() ? 'items-end' : 'items-start' }}">
+                        <div class="text-sm font-semibold text-gray-700">{{ $msg->user->name }}</div>
+                        <div class="max-w-xs p-3 rounded-lg {{ $msg->user_id == auth()->id() ? 'bg-blue-100 text-right' : 'bg-gray-100 text-left' }}">
+                            <p class="text-sm text-gray-800">{{ $msg->message }}</p>
+                            <span class="text-xs text-gray-500 block mt-1">{{ $msg->created_at->format('d M Y, H:i') }}</span>
+                        </div>
+                    </div>
+                @empty
+                    <p class="text-center text-gray-500">Belum ada pesan.</p>
+                @endforelse
             </div>
-        @endforeach
-    </div>
 
-    <!-- Message Input -->
-    <form action="{{ route('user.forums.chat.send', $forum->id) }}" method="POST" class="flex items-center space-x-2">
-        @csrf
-        <input type="text" name="message" placeholder="Ketik pesan..." class="w-full p-2 rounded-lg border border-gray-300" required>
-        <button type="submit" class="btn btn-primary p-2 rounded-lg">Kirim</button>
-    </form>
+            <!-- Chat Form -->
+            <form action="{{ route('user.forums.chat.send', $forum->id) }}" method="POST" class="flex items-center gap-2">
+                @csrf
+                <input type="text" name="message" placeholder="Ketik pesan..." required
+                       class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring focus:border-cyan-500" />
+                <button type="submit"
+                        class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg transition">
+                    Kirim
+                </button>
+            </form>
+        </div>
+    </main>
 </div>
 @endsection
 
-@section('styles')
-<style>
-    .chat-container {
-        background-color: #f7f7f7;
-        border-radius: 10px;
-        padding: 20px;
-        height: 400px;
-        overflow-y: scroll;
-    }
-    .message {
-        margin-bottom: 20px;
-    }
-    .message-sent {
-        text-align: right;
-    }
-    .message-received {
-        text-align: left;
-    }
-    .message-body {
-        padding: 10px;
-        border-radius: 8px;
-        font-size: 14px;
-    }
-    .message-sent .message-body {
-        background-color: #d1e7dd;
-        color: #495057;
-    }
-    .message-received .message-body {
-        background-color: #f1f1f1;
-        color: #495057;
-    }
-    .message-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-</style>
+@section('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+</script>
 @endsection

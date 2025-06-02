@@ -12,6 +12,25 @@ use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\ForumController as UserForumController;
 use App\Http\Controllers\User\ForumChatController as UserForumChatController;
 use App\Http\Controllers\Admin\ForumController as AdminForumController;
+use App\Http\Controllers\User\CourseController as UserCourseController;
+use App\Http\Controllers\Admin\SubCourseController;
+use App\Http\Controllers\User\UserSubCourseController;
+
+Route::get('/sub-courses/{sub_course}', [UserSubCourseController::class, 'show'])->name('user.sub-courses.show');
+
+// Jika ingin tanpa prefix admin:
+Route::get('/sub-courses', [SubCourseController::class, 'index'])->name('sub-courses.index');
+Route::get('/sub-courses/create', [SubCourseController::class, 'create'])->name('sub-courses.create');
+Route::post('/sub-courses', [SubCourseController::class, 'store'])->name('sub-courses.store');
+Route::get('/sub-courses/{sub_course}/edit', [SubCourseController::class, 'edit'])->name('sub-courses.edit');
+Route::put('/sub-courses/{sub_course}', [SubCourseController::class, 'update'])->name('sub-courses.update');
+Route::delete('/sub-courses/{sub_course}', [SubCourseController::class, 'destroy'])->name('sub-courses.destroy');
+
+Route::prefix('user')->middleware(['auth'])->group(function () {
+    Route::get('/courses', [UserCourseController::class, 'index'])->name('user.courses.index');
+    Route::get('/courses/{course}', [UserCourseController::class, 'show'])->name('user.courses.show');
+    Route::post('/courses/{course}/like', [UserCourseController::class, 'like'])->name('user.courses.like');
+});
 
 Route::get('/', fn() => view('welcome'));
 
@@ -41,7 +60,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Courses
     Route::get('courses', [App\Http\Controllers\Admin\CourseController::class, 'index'])->name('courses.index');
-Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 
     Route::resource('courses', CourseController::class);
     Route::resource('sub-courses', \App\Http\Controllers\Admin\SubCourseController::class);

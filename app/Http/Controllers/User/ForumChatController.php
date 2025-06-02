@@ -39,15 +39,4 @@ class ForumChatController extends Controller
 
         return back();
     }
-    public function chat($forumId)
-{
-    $user = Auth::user();
-    $activeForum = Forum::with('messages.user')->findOrFail($forumId);
-    $messages = $activeForum->messages;
-
-    return view('user.forums.chat', compact('activeForum', 'messages'));
-}
-
-
-
 }
