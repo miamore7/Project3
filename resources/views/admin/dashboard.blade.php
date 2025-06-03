@@ -15,31 +15,31 @@
             </div>
             
             <a href="{{ route('admin.dashboard') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.dashboard') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }}">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.dashboard') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
                 <span class="mr-3">📊</span>
                 Dashboard
             </a>
             
             <a href="{{ route('admin.courses.index') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.courses.*') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }}">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.courses.*') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
                 <span class="mr-3">📚</span>
                 Kelola Course
             </a>
             
             <a href="{{ route('admin.sub-courses.index') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.sub-courses.*') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }}">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.sub-courses.*') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
                 <span class="mr-3">🧩</span>
                 Kelola SubCourse
             </a>
             
             <a href="{{ route('admin.forums.index') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.forums.index') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }}">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.forums.index') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
                 <span class="mr-3">💬</span>
                 Kelola Forum
             </a>
             
             <a href="{{ route('admin.forum.requests') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.forum.requests') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }}">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.forum.requests') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
                 <span class="mr-3">📥</span>
                 Permintaan Join
                 @if(isset($jumlahRequestPending) && $jumlahRequestPending > 0)
