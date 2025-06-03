@@ -7,12 +7,11 @@
         <div class="p-6">
             <h2 class="text-xl font-bold mb-6 text-cyan-600">Menu</h2>
             <ul class="space-y-4">
-                <li><a href="{{ route('user.dashboard') }}" class="text-gray-700 hover:text-cyan-600">🏠 Dashboard</a></li>
-                <li><a href="{{ route('user.forums.myforums') }}" class="text-gray-700 hover:text-cyan-600">💬 Forum Saya</a></li>
-                <li><a href="{{ route('user.forums.index') }}" class="text-gray-700 hover:text-cyan-600">📚 Daftar Forum</a></li>
-                <li><a href="{{ route('user.courses.index') }}" class="text-gray-700 hover:text-cyan-600">🎓 Daftar Course</a></li>
+                <li><a href="{{ route('user.dashboard') }}" class="text-gray-700 hover:text-cyan-600 no-underline">🏠 Dashboard</a></li>
+                <li><a href="{{ route('user.forums.myforums') }}" class="text-gray-700 hover:text-cyan-600 no-underline">💬 Forum Saya</a></li>
+                <li><a href="{{ route('user.forums.index') }}" class="text-gray-700 hover:text-cyan-600 no-underline">📚 Daftar Forum</a></li>
+                <li><a href="{{ route('user.courses.index') }}" class="text-gray-700 hover:text-cyan-600 no-underline">🎓 Daftar Course</a></li>
             </ul>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
         </div>
     </aside>
 
@@ -34,7 +33,7 @@
                     <div class="space-y-4">
                         @foreach($subCourses as $sub)
                             <div class="border p-4 rounded shadow-sm bg-gray-50">
-                              <a href="{{ route('user.sub-courses.show', $sub->id) }}" class="block">
+                              <a href="{{ route('user.sub-courses.show', $sub->id) }}" class="block no-underline">
     <h5 class="font-bold text-gray-800 hover:text-cyan-700">{{ $sub->nama_course }}</h5>
 </a>
 <p class="text-gray-600">{{ $sub->description }}</p>
@@ -47,7 +46,7 @@
                 @endif
             </div>
 
-            <a href="{{ route('user.courses.index') }}" class="inline-block px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+            <a href="{{ route('user.courses.index') }}" class="inline-block px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 no-underline">
                 ← Kembali ke Daftar Course
             </a>
         </div>

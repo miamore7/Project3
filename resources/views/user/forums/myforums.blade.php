@@ -3,13 +3,14 @@
 @section('content')
 <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-cyan-700 text-white shadow-md hidden md:block h-screen sticky top-0">
+    <aside class="w-64 bg-white shadow-md border-r hidden md:block">
         <div class="p-6">
+            <h2 class="text-xl font-bold mb-6 text-cyan-600">Menu</h2>
             <ul class="space-y-4">
-                <li><a href="{{ route('user.dashboard') }}" class="hover:text-yellow-200 block">🏠 Dashboard</a></li>
-                <li><a href="{{ route('user.forums.myforums') }}" class="hover:text-yellow-200 block">💬 Forum Saya</a></li>
-                <li><a href="{{ route('user.forums.index') }}" class="hover:text-yellow-200 block">📚 Daftar Forum</a></li>
-                <li><a href="{{ route('user.courses.index') }}" class="hover:text-yellow-200 block">🎓 Daftar Course</a></li>
+                <li><a href="{{ route('user.dashboard') }}" class="text-gray-700 hover:text-cyan-600 no-underline">🏠 Dashboard</a></li>
+                <li><a href="{{ route('user.forums.myforums') }}" class="text-gray-700 hover:text-cyan-600 no-underline">💬 Forum Saya</a></li>
+                <li><a href="{{ route('user.forums.index') }}" class="text-gray-700 hover:text-cyan-600 no-underline">📚 Daftar Forum</a></li>
+                <li><a href="{{ route('user.courses.index') }}" class="text-gray-700 hover:text-cyan-600 no-underline">🎓 Daftar Course</a></li>
             </ul>
         </div>
     </aside>

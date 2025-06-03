@@ -7,16 +7,11 @@
         <div class="p-6">
             <h2 class="text-xl font-bold mb-6 text-cyan-600">Menu</h2>
             <ul class="space-y-4">
-                <li><a href="{{ route('user.dashboard') }}" class="text-gray-700 hover:text-cyan-600">🏠 Dashboard</a></li>
-                <li><a href="{{ route('user.forums.myforums') }}" class="text-gray-700 hover:text-cyan-600">💬 Forum Saya</a></li>
-                <li><a href="{{ route('user.forums.index') }}" class="text-gray-700 hover:text-cyan-600">📚 Daftar Forum</a></li>
-                <li><a href="{{ route('user.courses.index') }}" class="text-gray-700 hover:text-cyan-600">🎓 Daftar Course</a></li>
-                <li>
-                    <a href="{{ route('logout') }}" class="text-red-600 hover:text-red-700"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">🚪 Logout</a>
-                </li>
+                <li><a href="{{ route('user.dashboard') }}" class="text-gray-700 hover:text-cyan-600 no-underline">🏠 Dashboard</a></li>
+                <li><a href="{{ route('user.forums.myforums') }}" class="text-gray-700 hover:text-cyan-600 no-underline">💬 Forum Saya</a></li>
+                <li><a href="{{ route('user.forums.index') }}" class="text-gray-700 hover:text-cyan-600 no-underline">📚 Daftar Forum</a></li>
+                <li><a href="{{ route('user.courses.index') }}" class="text-gray-700 hover:text-cyan-600 no-underline">🎓 Daftar Course</a></li>
             </ul>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
         </div>
     </aside>
 

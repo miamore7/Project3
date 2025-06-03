@@ -7,10 +7,10 @@
         <div class="p-6">
             <h2 class="text-xl font-bold mb-6 text-cyan-600">Menu</h2>
             <ul class="space-y-4">
-                <li><a href="{{ route('user.dashboard') }}" class="text-gray-700 hover:text-cyan-600">🏠 Dashboard</a></li>
-                <li><a href="{{ route('user.forums.myforums') }}" class="text-gray-700 hover:text-cyan-600">💬 Forum Saya</a></li>
-                <li><a href="{{ route('user.forums.index') }}" class="text-gray-700 hover:text-cyan-600">📚 Daftar Forum</a></li>
-                <li><a href="{{ route('user.courses.index') }}" class="text-gray-700 hover:text-cyan-600">🎓 Daftar Course</a></li>
+                <li><a href="{{ route('user.dashboard') }}" class="text-gray-700 hover:text-cyan-600 no-underline">🏠 Dashboard</a></li>
+                <li><a href="{{ route('user.forums.myforums') }}" class="text-gray-700 hover:text-cyan-600 no-underline">💬 Forum Saya</a></li>
+                <li><a href="{{ route('user.forums.index') }}" class="text-gray-700 hover:text-cyan-600 no-underline">📚 Daftar Forum</a></li>
+                <li><a href="{{ route('user.courses.index') }}" class="text-gray-700 hover:text-cyan-600 no-underline">🎓 Daftar Course</a></li>
             </ul>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
         </div>
@@ -47,7 +47,7 @@
                         <h3 class="text-lg font-bold">{{ $c->nama_course }}</h3>
                         <p class="text-sm text-gray-600 mb-2">{{ Str::limit($c->description, 100) }}</p>
                         <p class="text-sm text-gray-500 mb-3">Oleh: {{ $c->user->name ?? 'Tidak diketahui' }}</p>
-                        <a href="{{ route('user.courses.show', $c) }}" class="text-green-600 hover:underline text-sm">Lihat Detail</a>
+                        <a href="{{ route('user.courses.show', $c) }}" class="text-green-600 hover:underline text-sm no-underline">Lihat Detail</a>
                     </div>
                     <div class="bg-gray-100 text-right p-3 text-xs text-gray-500">
                         {{ $c->created_at->format('d M Y') }}
