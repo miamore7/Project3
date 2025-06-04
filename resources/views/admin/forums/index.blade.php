@@ -23,25 +23,34 @@
         </a>
 
         <!-- Forums List as Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            @foreach($forums as $forum)
-            <div class="border rounded-lg shadow p-4 flex flex-col justify-between">
-                <div>
-                    <h5 class="text-xl font-semibold">{{ $forum->name }}</h5>
-                    <p class="text-gray-700">Anggota: {{ $forum->members->count() }}</p>
-                </div>
-
-                <form action="{{ route('admin.forums.destroy', $forum) }}" method="POST" class="mt-4">
-                    @csrf @method('DELETE')
-                    <button type="submit"
-                            onclick="return confirm('Hapus forum?')"
-                            class="text-red-600 hover:underline">
-                        Hapus
-                    </button>
-                </form>
-            </div>
-            @endforeach
+       <!-- Forums List as Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    @foreach($forums as $forum)
+    <div class="border rounded-lg shadow p-4 flex flex-col justify-between">
+        <div>
+            <h5 class="text-xl font-semibold">{{ $forum->name }}</h5>
+            <p class="text-gray-700">Anggota: {{ $forum->members->count() }}</p>
         </div>
+
+        <div class="mt-4 flex justify-between items-center">
+            <a href="{{ route('admin.forums.edit', $forum->id) }}"
+               class="text-blue-600 hover:underline">
+                Edit
+            </a>
+
+            <form action="{{ route('admin.forums.destroy', $forum) }}" method="POST">
+                @csrf @method('DELETE')
+                <button type="submit"
+                        onclick="return confirm('Hapus forum?')"
+                        class="text-red-600 hover:underline">
+                    Hapus
+                </button>
+            </form>
+        </div>
+    </div>
+    @endforeach
+</div>
+
     </main>
 </div>
 @endsection
