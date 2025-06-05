@@ -35,8 +35,7 @@
             <span class="mr-3">💬</span>
             Kelola Forum
         </a>
-        
-        <a href="{{ route('admin.forum.requests') }}" 
+        <a href="{{ route('admin.forums.requests') }}" 
            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.forum.requests') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }}">
             <span class="mr-3">📥</span>
             Permintaan Join
@@ -48,3 +47,4 @@
         </a>
     </nav>
 </div>
+

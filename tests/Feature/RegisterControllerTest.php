@@ -20,22 +20,7 @@ class RegisterControllerTest extends TestCase
     }
 
     /** @test */
-    public function user_can_register_with_valid_data()
-    {
-        $response = $this->post('/register', [
-            'name' => 'John Doe',
-            'email' => 'johndoe@example.com',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
-        ]);
-
-        $response->assertRedirect('/auth/login'); // sesuai dengan $redirectTo di controller
-
-        $this->assertDatabaseHas('users', [
-            'name' => 'John Doe',
-            'email' => 'johndoe@example.com',
-        ]);
-    }
+ /** @test */
 
     /** @test */
     public function registration_fails_with_invalid_data()

@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
+
+
     public function index()
     {
         $courses = Course::with(['user', 'subCourses'])->get();
@@ -31,7 +34,7 @@ class CourseController extends Controller
             'nama_course' => $request->nama_course,
             'link_video' => $request->link_video,
             'description' => $request->description,
-            'idUser' => auth()->id(),
+            'idUser' => Auth::id(),
         ]);
 
         return redirect()->route('admin.courses.index')->with('success', 'Course berhasil ditambahkan');
@@ -61,27 +64,24 @@ class CourseController extends Controller
         return view('admin.courses.show', compact('course', 'subCourses'));
     }
 
-    public function destroy($id)
+    public function destroy(Course $course)
     {
-        $course = Course::findOrFail($id);
         $course->delete();
-    
-        // Menambahkan flash message
-        session()->flash('success', 'Course berhasil dihapus.');
-    
-        return redirect()->route('admin.courses.index');
+        return redirect()->route('admin.courses.index')->with('success', 'Course berhasil dihapus');
     }
     
     public function like(Course $course)
     {
-        $user = auth()->user();
+        $user = Auth::user();
+        
         if ($user->likedCourses()->where('course_id', $course->id)->exists()) {
-            // Jika sudah like, maka un-like
             $user->likedCourses()->detach($course->id);
+            $message = 'Course unliked';
         } else {
             $user->likedCourses()->attach($course->id);
+            $message = 'Course liked';
         }
 
-        return back();
+        return back()->with('success', $message);
     }
 }
