@@ -34,7 +34,7 @@ class CourseController extends Controller
             'idUser' => auth()->id(),
         ]);
 
-        return redirect()->route('courses.index')->with('success', 'Course berhasil ditambahkan');
+        return redirect()->route('admin.courses.index')->with('success', 'Course berhasil ditambahkan');
     }
 
     public function edit(Course $course)
