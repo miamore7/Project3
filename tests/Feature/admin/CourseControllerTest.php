@@ -19,36 +19,22 @@ class CourseControllerTest extends TestCase
     {
         parent::setUp();
 
-        // --------------------------------------------------------------------
-        // PENTING: Sesuaikan pembuatan adminUser ini dengan bagaimana
-        // aplikasi Anda mengidentifikasi seorang admin.
-        // Tanpa ini, user mungkin tidak diotorisasi untuk mengakses route admin,
-        // menyebabkan redirect (status 302) bukan 200 atau redirect ke halaman admin.
-        // --------------------------------------------------------------------
-
-        // Contoh 1: Jika Anda memiliki kolom 'is_admin' (boolean) di tabel users
+        // Membuat adminUser dengan 'role' => 'admin' sesuai AdminMiddleware Anda
         $this->adminUser = User::factory()->create([
-            // 'is_admin' => true, //  <-- SESUAIKAN INI! Uncomment dan pastikan ini benar.
-            // 'email' => 'admin@example.com', // Opsional: email spesifik
+            'role' => 'admin', // Penting: disesuaikan dengan AdminMiddleware
+            // Tambahkan field lain yang mungkin diperlukan oleh factory User Anda agar valid,
+            // misalnya 'email_verified_at' => now(), dll.
         ]);
 
-        // Contoh 2: Jika Anda menggunakan sistem Roles & Permissions (misal Spatie/laravel-permission)
-        // 1. Pastikan Anda sudah membuat role 'admin' (misalnya via seeder atau manual).
-        //    // \Spatie\Permission\Models\Role::create(['name' => 'admin']); // Jalankan sekali jika belum ada
-        // 2. Assign role tersebut ke user:
-        // if ($this->adminUser) { // Pastikan $adminUser sudah di-create
-        //     // $this->adminUser->assignRole('admin'); // <-- SESUAIKAN INI! Pastikan nama role 'admin' sudah ada.
-        // }
-
-
-        // User biasa untuk fitur 'like'
-        $this->regularUser = User::factory()->create();
+        // Membuat regularUser (non-admin)
+        $this->regularUser = User::factory()->create([
+            'role' => 'user', // Atau role lain yang bukan 'admin'
+        ]);
     }
 
     /** @test */
     public function admin_can_view_courses_index()
     {
-        // Pastikan adminUser Anda dikenali sebagai admin oleh middleware
         Course::factory()->count(3)->create(['idUser' => $this->adminUser->id]);
 
         $response = $this->actingAs($this->adminUser)
@@ -220,16 +206,16 @@ class CourseControllerTest extends TestCase
     /** @test */
     public function authenticated_user_can_like_a_course()
     {
-        $courseOwner = User::factory()->create();
+        $courseOwner = User::factory()->create(); // Bisa jadi admin atau user lain
         $course = Course::factory()->create(['idUser' => $courseOwner->id]);
 
-        $response = $this->actingAs($this->regularUser)
+        $response = $this->actingAs($this->regularUser) // User biasa yang melakukan 'like'
                          ->post(route('admin.courses.like', $course));
 
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Course liked');
-        // Ganti 'course_user_likes' dengan nama tabel pivot Anda jika berbeda
-        // dan pastikan relasi 'likedCourses' ada di model User.
+        // Pastikan nama tabel pivot 'course_user_likes' (atau apa pun namanya)
+        // dan relasi 'likedCourses' di model User sudah benar.
         $this->assertDatabaseHas('course_user_likes', [
             'user_id' => $this->regularUser->id,
             'course_id' => $course->id,
@@ -242,14 +228,14 @@ class CourseControllerTest extends TestCase
         $courseOwner = User::factory()->create();
         $course = Course::factory()->create(['idUser' => $courseOwner->id]);
 
-        $this->regularUser->likedCourses()->attach($course->id); // User me-like dulu
+        // User (regularUser) me-like course terlebih dahulu
+        $this->regularUser->likedCourses()->attach($course->id);
 
         $response = $this->actingAs($this->regularUser)
                          ->post(route('admin.courses.like', $course)); // Aksi 'like' lagi untuk unlike
 
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Course unliked');
-        // Ganti 'course_user_likes' dengan nama tabel pivot Anda jika berbeda
         $this->assertDatabaseMissing('course_user_likes', [
             'user_id' => $this->regularUser->id,
             'course_id' => $course->id,
@@ -260,7 +246,8 @@ class CourseControllerTest extends TestCase
     public function guest_cannot_access_admin_courses_routes()
     {
         $course = Course::factory()->create();
-        $loginRoute = route('login'); // Menggunakan helper route('login') lebih dinamis
+        // Menggunakan helper route('login') lebih baik karena dinamis jika Anda mengubah path login
+        $loginRoute = route('login');
 
         $this->get(route('admin.courses.index'))->assertRedirect($loginRoute);
         $this->get(route('admin.courses.create'))->assertRedirect($loginRoute);
@@ -269,6 +256,7 @@ class CourseControllerTest extends TestCase
         $this->put(route('admin.courses.update', $course))->assertRedirect($loginRoute);
         $this->get(route('admin.courses.show', $course))->assertRedirect($loginRoute);
         $this->delete(route('admin.courses.destroy', $course))->assertRedirect($loginRoute);
+        // Asumsi route 'admin.courses.like' juga dilindungi oleh middleware 'auth'
         $this->post(route('admin.courses.like', $course))->assertRedirect($loginRoute);
     }
 
@@ -280,26 +268,24 @@ class CourseControllerTest extends TestCase
         $actions = [
             'index' => fn() => $this->actingAs($this->regularUser)->get(route('admin.courses.index')),
             'create' => fn() => $this->actingAs($this->regularUser)->get(route('admin.courses.create')),
-            'store' => fn() => $this->actingAs($this->regularUser)->post(route('admin.courses.store'), []),
+            'store' => fn() => $this->actingAs($this->regularUser)->post(route('admin.courses.store'), []), // Data kosong cukup untuk test akses
             'edit' => fn() => $this->actingAs($this->regularUser)->get(route('admin.courses.edit', $course)),
-            'update' => fn() => $this->actingAs($this->regularUser)->put(route('admin.courses.update', $course), []),
-            // 'show' bisa jadi boleh diakses user biasa, jika tidak, tambahkan di sini.
-            // 'destroy' akan ditest terpisah di bawah karena lebih kritikal.
+            'update' => fn() => $this->actingAs($this->regularUser)->put(route('admin.courses.update', $course), []), // Data kosong
         ];
+
+        // Berdasarkan AdminMiddleware Anda, redirectnya akan ke '/user/dashboard'
+        $expectedRedirectTarget = '/user/dashboard';
 
         foreach ($actions as $action => $closure) {
             $response = $closure();
-            // Sesuaikan assertion berdasarkan perilaku middleware otorisasi admin Anda:
-            // $response->assertStatus(403); // Jika Forbidden
-            // $response->assertRedirect(route('some.other.page')); // Jika redirect
-            $response->assertStatus(302); // Asumsi umum redirect jika tidak diotorisasi
-            // Anda mungkin ingin lebih spesifik: $response->assertRedirect(route('login')); atau dashboard user biasa
+            $response->assertRedirect($expectedRedirectTarget);
+            $response->assertSessionHas('error', "You don't have admin access.");
         }
 
         // Test khusus untuk 'destroy' oleh non-admin
         $responseDestroy = $this->actingAs($this->regularUser)->delete(route('admin.courses.destroy', $course));
-        // $responseDestroy->assertStatus(403); // atau
-        $responseDestroy->assertStatus(302);
+        $responseDestroy->assertRedirect($expectedRedirectTarget);
+        $responseDestroy->assertSessionHas('error', "You don't have admin access.");
         $this->assertDatabaseHas('courses', ['id' => $course->id]); // Pastikan data tidak terhapus
     }
 }
