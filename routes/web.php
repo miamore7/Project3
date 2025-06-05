@@ -14,6 +14,7 @@ use App\Http\Controllers\User\ForumChatController as UserForumChatController;
 use App\Http\Controllers\Admin\ForumController as AdminForumController;
 use App\Http\Controllers\User\CourseController as UserCourseController;
 use App\Http\Controllers\Admin\SubCourseController;
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\User\UserSubCourseController;
 
 Route::get('/sub-courses/{sub_course}', [UserSubCourseController::class, 'show'])->name('user.sub-courses.show');
@@ -42,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::middleware(['auth', 'admin'])->get('/profile/{user}/reset-password', [ProfileController::class, 'resetPassword'])->name('profile.reset-password');
 });
 
 
@@ -50,6 +52,12 @@ Route::middleware(['auth'])->group(function () {
 // =============================
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // User Management
+    Route::get('users', [UserManagementController::class, 'index'])->name('users.index');
+
+    // Reset Password
+    Route::post('/users/{id}/reset-password-default', [UserManagementController::class, 'resetPasswordToDefault'])->name('users.reset-password-default');
 
     // Forum Management
     Route::resource('forums', AdminForumController::class);

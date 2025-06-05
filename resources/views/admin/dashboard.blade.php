@@ -29,6 +29,12 @@
                 <span class="mr-3">📚</span>
                 Kelola Course
             </a>
+
+            <a href="{{ route('admin.users.index') }}" 
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition no-underline {{ request()->routeIs('admin.users.*') ? $activeClasses : '' }}">
+                <span class="mr-3">👥</span>
+                Kelola Pengguna
+            </a>
             
             <a href="{{ route('admin.sub-courses.index') }}" 
                class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition no-underline {{ request()->routeIs('admin.sub-courses.*') ? $activeClasses : '' }}">
