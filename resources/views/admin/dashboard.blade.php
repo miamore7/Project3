@@ -14,32 +14,36 @@
                 Menu Utama
             </div>
             
+            @php
+                $activeClasses = 'bg-gray-100 border-r-4 border-indigo-500';
+            @endphp
+            
             <a href="{{ route('admin.dashboard') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.dashboard') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition no-underline {{ request()->routeIs('admin.dashboard') ? $activeClasses : '' }}">
                 <span class="mr-3">📊</span>
                 Dashboard
             </a>
             
             <a href="{{ route('admin.courses.index') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.courses.*') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition no-underline {{ request()->routeIs('admin.courses.*') ? $activeClasses : '' }}">
                 <span class="mr-3">📚</span>
                 Kelola Course
             </a>
             
             <a href="{{ route('admin.sub-courses.index') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.sub-courses.*') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition no-underline {{ request()->routeIs('admin.sub-courses.*') ? $activeClasses : '' }}">
                 <span class="mr-3">🧩</span>
                 Kelola SubCourse
             </a>
             
             <a href="{{ route('admin.forums.index') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.forums.index') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition no-underline {{ request()->routeIs('admin.forums.index') ? $activeClasses : '' }}">
                 <span class="mr-3">💬</span>
                 Kelola Forum
             </a>
             
             <a href="{{ route('admin.forum.requests') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.forum.requests') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
+               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition no-underline {{ request()->routeIs('admin.forum.requests') ? $activeClasses : '' }}">
                 <span class="mr-3">📥</span>
                 Permintaan Join
                 @if(isset($jumlahRequestPending) && $jumlahRequestPending > 0)
@@ -49,31 +53,6 @@
                 @endif
             </a>
         </nav>
-
-        User Menu at Bottom
-        <!-- <div class="mt-auto border-t">
-            <div class="px-4 py-2 text-sm font-medium text-gray-500 uppercase tracking-wider">
-                User Menu
-            </div>
-            <a href="{{ route('profile.show') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition">
-                <span class="mr-3">👤</span>
-                View Profile
-            </a>
-            <a href="{{ route('profile.edit') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition">
-                <span class="mr-3">✏️</span>
-                Edit Profile
-            </a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" 
-                        class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition text-left">
-                    <span class="mr-3">🚪</span>
-                    Logout
-                </button>
-            </form>
-        </div> -->
     </div>
 
     <!-- Main Content -->
@@ -98,7 +77,7 @@
 
         {{-- Chart --}}
         <div class="bg-white p-6 rounded shadow">
-            <canvas id="dashboardChart"></canvas>
+            <canvas id="dashboardChart" height="300"></canvas>
         </div>
     </div>
 </div>
@@ -107,42 +86,50 @@
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('dashboardChart').getContext('2d');
-    const dashboardChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['User Aktif', 'Course', 'Sub-course'],
-            datasets: [{
-                label: 'Statistik',
-                data: [
-                    {{ $jumlahUserAktif }},
-                    {{ $jumlahCourse }},
-                    {{ $jumlahSubCourse }}
-                ],
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('dashboardChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['User Aktif', 'Course', 'Sub-course'],
+                datasets: [{
+                    label: 'Statistik',
+                    data: [
+                        {{ $jumlahUserAktif }},
+                        {{ $jumlahCourse }},
+                        {{ $jumlahSubCourse }}
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
                     }
                 }
             }
-        }
+        });
     });
 </script>
 @endsection

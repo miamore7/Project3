@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class ProfileControllerTest extends TestCase
@@ -17,7 +18,9 @@ class ProfileControllerTest extends TestCase
         parent::setUp();
 
         // Buat user dan login
-        $this->user = User::factory()->create();
+        $this->user = User::factory()->create([
+            'password' => bcrypt('oldpassword'),
+        ]);
         $this->actingAs($this->user);
     }
 
@@ -47,11 +50,10 @@ class ProfileControllerTest extends TestCase
         $response = $this->put(route('profile.update'), [
             'name' => 'Updated Name',
             'email' => 'updated@example.com',
-            'password' => '',
-            'password_confirmation' => '',
         ]);
 
-        $response->assertRedirect(route('profile.show'));
+        $response->assertRedirect();
+        $response->assertSessionHas('profile.updated', true);
 
         $this->assertDatabaseHas('users', [
             'id' => $this->user->id,
@@ -66,20 +68,17 @@ class ProfileControllerTest extends TestCase
         $response = $this->put(route('profile.update'), [
             'name' => 'Updated Name',
             'email' => 'updated@example.com',
-            'password' => 'newpassword',
-            'password_confirmation' => 'newpassword',
+            'password' => 'newsecurepassword',
+            'password_confirmation' => 'newsecurepassword',
         ]);
 
-        $response->assertRedirect(route('profile.show'));
+        $response->assertRedirect();
+        $response->assertSessionHas('profile.updated', true);
 
-        $this->assertDatabaseHas('users', [
-            'id' => $this->user->id,
-            'name' => 'Updated Name',
-            'email' => 'updated@example.com',
-        ]);
+        $user = $this->user->fresh();
 
-        $this->assertTrue(
-            password_verify('newpassword', $this->user->fresh()->password)
-        );
+        $this->assertEquals('Updated Name', $user->name);
+        $this->assertEquals('updated@example.com', $user->email);
+        $this->assertTrue(Hash::check('newsecurepassword', $user->password));
     }
 }

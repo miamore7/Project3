@@ -1,5 +1,18 @@
 @extends('layouts.app')
 
+@php
+    if (!function_exists('getYoutubeEmbedUrl')) {
+        function getYoutubeEmbedUrl($url) {
+            if (preg_match('/youtu\.be\/([^\?]*)/', $url, $matches)) {
+                return 'https://www.youtube.com/embed/' . $matches[1];
+            } elseif (preg_match('/youtube\.com.*v=([^&]*)/', $url, $matches)) {
+                return 'https://www.youtube.com/embed/' . $matches[1];
+            }
+            return null;
+        }
+    }
+@endphp
+
 @section('content')
 <div class="flex">
     <!-- Sidebar -->
@@ -48,14 +61,6 @@
                                     <p class="text-sm text-gray-500">Oleh: {{ $sub->user->name ?? '-' }}</p>
 
                                     @php
-                                        function getYoutubeEmbedUrl($url) {
-                                            if (preg_match('/youtu\.be\/([^\?]*)/', $url, $matches)) {
-                                                return 'https://www.youtube.com/embed/' . $matches[1];
-                                            } elseif (preg_match('/youtube\.com.*v=([^&]*)/', $url, $matches)) {
-                                                return 'https://www.youtube.com/embed/' . $matches[1];
-                                            }
-                                            return null;
-                                        }
                                         $embedUrl = getYoutubeEmbedUrl($sub->link_video);
                                     @endphp
 
