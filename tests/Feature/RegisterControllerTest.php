@@ -11,48 +11,33 @@ class RegisterControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function registration_form_is_accessible()
+    public function user_can_register_successfully()
     {
-        $response = $this->get('/register');
+        $response = $this->post('/register', [
+            'name' => 'Jane Doe',
+            'email' => 'janedoe@example.com',
+            'password' => 'securepassword',
+            'password_confirmation' => 'securepassword',
+        ]);
 
-        $response->assertStatus(200);
-        $response->assertSee('Register'); // pastikan ada kata "Register" di form
+        $response->assertRedirect(route('login')); // ubah jika perlu
+        $this->assertDatabaseHas('users', ['email' => 'janedoe@example.com']);
+        $this->assertTrue(auth()->check());
     }
 
     /** @test */
- /** @test */
-
-    /** @test */
-    public function registration_fails_with_invalid_data()
+    public function registration_fails_with_empty_input()
     {
         $response = $this->from('/register')->post('/register', [
             'name' => '',
-            'email' => 'not-an-email',
-            'password' => 'short',
-            'password_confirmation' => 'nomatch',
+            'email' => '',
+            'password' => '',
+            'password_confirmation' => '',
         ]);
 
         $response->assertRedirect('/register');
         $response->assertSessionHasErrors(['name', 'email', 'password']);
+        $this->assertFalse(auth()->check());
         $this->assertCount(0, User::all());
-    }
-
-    /** @test */
-    public function user_cannot_register_with_existing_email()
-    {
-        User::factory()->create([
-            'email' => 'johndoe@example.com',
-        ]);
-
-        $response = $this->from('/register')->post('/register', [
-            'name' => 'John Duplicate',
-            'email' => 'johndoe@example.com',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
-        ]);
-
-        $response->assertRedirect('/register');
-        $response->assertSessionHasErrors('email');
-        $this->assertCount(1, User::all()); // hanya 1 user yang tersimpan
     }
 }

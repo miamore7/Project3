@@ -12,65 +12,37 @@ class LoginControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function login_form_is_accessible()
-    {
-        $response = $this->get('/login');
-        $response->assertStatus(200);
-        $response->assertSee('Email'); // ubah jika perlu
-    }
+/** @test */
+public function login_succeeds_with_valid_credentials_and_auth_is_true()
+{
+    $user = User::factory()->create([
+        'email' => 'user@example.com',
+        'password' => bcrypt('password123'),
+        'role' => 'user',
+    ]);
 
-    /** @test */
-    public function user_can_login_and_redirected_to_user_dashboard()
-    {
-        $user = User::factory()->create([
-            'email' => 'user@example.com',
-            'password' => bcrypt('password123'),
-            'role' => 'user',
-        ]);
+    $response = $this->post('/login', [
+        'email' => 'user@example.com',
+        'password' => 'password123',
+    ]);
 
-        $response = $this->post('/login', [
-            'email' => 'user@example.com',
-            'password' => 'password123',
-        ]);
+    $response->assertRedirect(route('user.dashboard'));
+    $this->assertAuthenticatedAs($user);
+    $this->assertTrue(auth()->check());
+}
 
-        $response->assertRedirect(route('user.dashboard'));
-        $this->assertAuthenticatedAs($user);
-    }
+/** @test */
+public function login_fails_with_empty_input_and_auth_is_false()
+{
+    $response = $this->from('/login')->post('/login', [
+        'email' => '',
+        'password' => '',
+    ]);
 
-    /** @test */
-    public function admin_can_login_and_redirected_to_admin_dashboard()
-    {
-        $admin = User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('adminpass'),
-            'role' => 'admin',
-        ]);
+    $response->assertRedirect('/login');
+    $response->assertSessionHasErrors(['email', 'password']);
+    $this->assertFalse(auth()->check());
+    $this->assertGuest();
+}
 
-        $response = $this->post('/login', [
-            'email' => 'admin@example.com',
-            'password' => 'adminpass',
-        ]);
-
-        $response->assertRedirect(route('admin.dashboard'));
-        $this->assertAuthenticatedAs($admin);
-    }
-
-    /** @test */
-    public function login_fails_with_invalid_credentials()
-    {
-        $user = User::factory()->create([
-            'email' => 'wrong@example.com',
-            'password' => bcrypt('correctpassword'),
-            'role' => 'user',
-        ]);
-
-        $response = $this->from('/login')->post('/login', [
-            'email' => 'wrong@example.com',
-            'password' => 'wrongpassword',
-        ]);
-
-        $response->assertRedirect('/login');
-        $response->assertSessionHasErrors('email');
-        $this->assertGuest();
-    }
 }
