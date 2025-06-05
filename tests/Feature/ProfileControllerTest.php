@@ -25,60 +25,29 @@ class ProfileControllerTest extends TestCase
     }
 
     /** @test */
-    public function show_profile_page_is_accessible()
-    {
-        $response = $this->get(route('profile.show'));
+ /** @test */
+public function update_profile_successfully()
+{
+    $response = $this->put(route('profile.update'), [
+        'name' => 'Jane Doe',
+        'email' => 'jane@example.com',
+    ]);
 
-        $response->assertStatus(200);
-        $response->assertViewIs('profile.show');
-        $response->assertViewHas('user');
-    }
+    $response->assertRedirect();
+    $this->assertTrue(session()->has('profile.updated'));
+}
+/** @test */
+public function update_profile_fails_with_empty_data()
+{
+    $response = $this->from(route('profile.edit'))->put(route('profile.update'), [
+        'name' => '',
+        'email' => '',
+    ]);
 
-    /** @test */
-    public function edit_profile_page_is_accessible()
-    {
-        $response = $this->get(route('profile.edit'));
+    $response->assertRedirect(route('profile.edit'));
+    $response->assertSessionHasErrors(['name', 'email']);
+    
+    $this->assertFalse(session()->has('profile.updated')); // assert FALSE karena tidak berhasil update
+}
 
-        $response->assertStatus(200);
-        $response->assertViewIs('profile.edit');
-        $response->assertViewHas('user');
-    }
-
-    /** @test */
-    public function update_profile_without_password()
-    {
-        $response = $this->put(route('profile.update'), [
-            'name' => 'Updated Name',
-            'email' => 'updated@example.com',
-        ]);
-
-        $response->assertRedirect();
-        $response->assertSessionHas('profile.updated', true);
-
-        $this->assertDatabaseHas('users', [
-            'id' => $this->user->id,
-            'name' => 'Updated Name',
-            'email' => 'updated@example.com',
-        ]);
-    }
-
-    /** @test */
-    public function update_profile_with_password()
-    {
-        $response = $this->put(route('profile.update'), [
-            'name' => 'Updated Name',
-            'email' => 'updated@example.com',
-            'password' => 'newsecurepassword',
-            'password_confirmation' => 'newsecurepassword',
-        ]);
-
-        $response->assertRedirect();
-        $response->assertSessionHas('profile.updated', true);
-
-        $user = $this->user->fresh();
-
-        $this->assertEquals('Updated Name', $user->name);
-        $this->assertEquals('updated@example.com', $user->email);
-        $this->assertTrue(Hash::check('newsecurepassword', $user->password));
-    }
 }

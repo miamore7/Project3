@@ -2,21 +2,22 @@
 
 namespace Database\Factories;
 
+use App\Models\SubCourse;
 use App\Models\Course;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CourseFactory extends Factory
+class SubCourseFactory extends Factory
 {
-    protected $model = Course::class;
+    protected $model = SubCourse::class;
 
     public function definition()
     {
         return [
             'nama_course' => $this->faker->unique()->sentence(3),
-            'link_video' => $this->faker->optional()->url,
+            'link_video' => $this->faker->url,
             'description' => $this->faker->paragraph,
-            'idUser' => User::factory(), // otomatis bikin user baru juga
+            'course_id' => Course::factory(), // otomatis bikin course baru
+            'idUser' => 1, // sesuaikan jika perlu atau buat user factory juga
         ];
     }
 }
