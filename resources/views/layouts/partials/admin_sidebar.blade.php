@@ -1,6 +1,6 @@
 <!-- resources/views/layouts/partials/admin_sidebar.blade.php -->
 <nav class="mt-4 flex-grow ">
-    <div class="px-4 py-2 text-sm font-medium text-gray-500 uppercase tracking-wider">
+    <div class="px-4 py-2 text-sm font-medium text-gray-500 font-bold uppercase tracking-wider">
         Menu Utama
     </div>
 

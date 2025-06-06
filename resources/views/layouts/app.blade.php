@@ -122,6 +122,10 @@
                                     data-bs-target="#editProfileModal">
                                     {{ __('Profile') }}
                                 </a>
+                                
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                    {{ __('Dashboard') }}
+                                </a>
 
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
@@ -193,7 +197,7 @@
             </div>
         </div>
 
-        <main class="py-4">
+        <main class="py-0">
             @yield('content')
         </main>
 
