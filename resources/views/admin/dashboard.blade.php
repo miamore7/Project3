@@ -85,6 +85,7 @@
         <div class="bg-white p-6 rounded shadow">
             <canvas id="dashboardChart" height="300"></canvas>
         </div>
+        
     </div>
 </div>
 @endsection

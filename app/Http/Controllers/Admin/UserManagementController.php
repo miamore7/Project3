@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class UserManagementController extends Controller
 {
+	
 	public function index()
 	{
 		// Get all emails with a pending reset request

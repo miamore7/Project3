@@ -15,7 +15,8 @@
         <span class="mr-3">📚</span>
         Kelola Course
     </a>
-
+    
+    
      {{-- kelola reset password --}}
     <a href="{{ route('admin.users.index') }}" 
        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition {{ request()->routeIs('admin.users.*') ? 'bg-gray-100 border-r-4 border-indigo-500' : '' }} no-underline">
