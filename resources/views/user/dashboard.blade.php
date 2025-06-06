@@ -56,32 +56,6 @@
                 @endforeach
             </div>
         </section>
-
-        <!-- More Courses -->
-        <section class="text-center">
-            <h2 class="text-2xl font-semibold mb-4">
-                More Courses <span class="bg-gray-500 text-white text-xs px-2 py-1 rounded">Best Coaches</span>
-            </h2>
-            <button id="toggleCoursesBtn" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition mb-6">
-                Tampilkan / Sembunyikan
-            </button>
-            <div id="coursesContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 hidden">
-                @foreach($courses as $course)
-                <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    <img src="{{ asset('images/Gitar.jpeg') }}" alt="Course Image" class="w-full h-40 object-cover">
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold">{{ $course->nama_course }}</h3>
-                        <p class="text-sm text-gray-600 mb-2">{{ Str::limit($course->description, 100) }}</p>
-                        <p class="text-sm text-gray-500 mb-3">Oleh: {{ $course->user->name ?? 'Tidak diketahui' }}</p>
-                        <a href="{{ route('user.courses.show', $course) }}" class="text-green-600 hover:underline text-sm">Lihat Detail</a>
-                    </div>
-                    <div class="bg-gray-100 text-right p-3 text-xs text-gray-500">
-                        {{ $course->created_at->format('d M Y') }}
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </section>
     </main>
 </div>
 @endsection
