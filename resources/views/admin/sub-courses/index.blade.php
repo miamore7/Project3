@@ -21,7 +21,7 @@
 
         <!-- Tombol Tambah SubCourse -->
         <a href="{{ route('admin.sub-courses.create') }}" 
-           class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition mb-6">
+           class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition mb-6 no-underline">
             + Tambah SubCourse
         </a>
 
@@ -45,7 +45,7 @@
                     </p>
 
                     <div class="mt-3 flex space-x-4">
-                        <a href="{{ route('admin.sub-courses.edit', $sub) }}" class="text-blue-600 hover:underline">
+                        <a href="{{ route('admin.sub-courses.edit', $sub) }}" class="text-blue-600 hover:underline no-underline">
                             ✏️ Edit
                         </a>
 

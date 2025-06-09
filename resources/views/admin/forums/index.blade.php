@@ -18,7 +18,7 @@
         <h2 class="text-2xl font-bold mb-6">Daftar Forum</h2>
 
         <a href="{{ route('admin.forums.create') }}"
-           class="mb-4 inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">
+           class="mb-4 inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition no-underline">
             + Buat Forum
         </a>
 
@@ -34,7 +34,7 @@
 
         <div class="mt-4 flex justify-between items-center">
             <a href="{{ route('admin.forums.edit', $forum->id) }}"
-               class="text-blue-600 hover:underline">
+               class="text-blue-600 hover:underline no-underline">
                 Edit
             </a>
 

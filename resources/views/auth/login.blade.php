@@ -13,7 +13,7 @@
         Welcome back
     </h2>
     <p class="mt-1 text-sm text-gray-600"> <!-- Changed from mt-2 to mt-1 -->
-        Or <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">create a new account</a>
+        Or <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500 no-underline">create a new account</a>
     </p>
 </div>
 
@@ -52,7 +52,7 @@
 
                     @if (Route::has('password.request'))
                     <div class="text-sm">
-                        <a href="{{ route('password.request') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        <a href="{{ route('password.request') }}" class="font-medium text-indigo-600 hover:text-indigo-500 no-underline">
                             Forgot password?
                         </a>
                     </div>
