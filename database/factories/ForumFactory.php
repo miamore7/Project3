@@ -1,19 +1,23 @@
 <?php
 
 namespace Database\Factories;
-
+use App\Models\User; 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
 
-class CourseFactory extends Factory
+class ForumFactory extends Factory
 {
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition()
-    {
-        return [
-            'nama_course' => $this->faker->sentence(3),
-            'link_video' => $this->faker->url(),
-            'description' => $this->faker->paragraph(),
-            'idUser' => User::factory(),
-        ];
-    }
+{
+    return [
+        'name' => $this->faker->unique()->sentence(2),
+        'description' => $this->faker->paragraph,
+        'created_by' => User::factory(),
+    ];
+}
+
 }
