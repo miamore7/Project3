@@ -40,4 +40,33 @@ class RegisterControllerTest extends TestCase
         $this->assertFalse(auth()->check());
         $this->assertCount(0, User::all());
     }
+
+    /** @test */
+    public function registration_fails_with_existing_email()
+    {
+        // Buat user dengan email yang sudah ada
+        User::factory()->create([
+            'email' => 'existing@example.com',
+        ]);
+
+        // Coba registrasi dengan email yang sama
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'existing@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        // Pastikan ada error validasi pada field 'email'
+        $response->assertSessionHasErrors(['email']);
+
+        // Pastikan tidak ada user baru yang ditambahkan
+        $this->assertDatabaseCount('users', 1);
+
+        // Tambahan: Pastikan pengguna tidak terautentikasi
+        // Karena registrasi gagal, tidak seharusnya ada user yang login
+        $this->assertFalse(auth()->check()); // Opsi 1: Menggunakan assertFalse
+        // atau
+        // $this->assertGuest(); // Opsi 2: Menggunakan assertGuest (ini juga akan memeriksa jika user tidak login)
+    }
 }
