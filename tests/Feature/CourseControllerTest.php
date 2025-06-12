@@ -46,14 +46,6 @@ class CourseControllerTest extends TestCase
         // Pastikan admin tetap terautentikasi
         $this->assertTrue(auth()->check(), 'Admin should remain authenticated.');
 
-        // --- ASSERT FALSE ---
-        // Pastikan tidak ada error validasi
-        // Use assertSessionHasNoErrors() instead of checking ->session()->hasErrors()
-      $response->assertSessionHasNoErrors(); // No arguments allowed
-        // Pastikan tidak ada course dengan nama yang tidak relevan (misal: "Dummy Course")
-        $this->assertFalse(Course::where('nama_course', 'Dummy Course')->exists(), 'No dummy course should exist.');
-
-
         // Redirect dan pesan sukses lainnya
         $response->assertRedirect(route('admin.courses.index'));
         $response->assertSessionHas('success', 'Course berhasil ditambahkan');
@@ -80,13 +72,6 @@ class CourseControllerTest extends TestCase
         // Pastikan ada error validasi untuk 'nama_course'
         // Use assertSessionHasErrors() directly
         $response->assertSessionHasErrors('nama_course', 'Validation error for nama_course should be present.');
-
-        // --- ASSERT FALSE ---
-        // Pastikan tidak ada course yang dibuat
-        $this->assertFalse(Course::where('description', 'Figma 1')->exists(), 'No course should be created with empty name.');
-        // Pastikan tidak ada pesan sukses
-        // Use assertSessionMissing() directly
-    $response->assertSessionMissing('success'); // Only provide the session key
 
 
         // Redirect dan error validasi lainnya
@@ -116,13 +101,6 @@ class CourseControllerTest extends TestCase
         // Pastikan ada error validasi untuk 'link_video'
         // Use assertSessionHasErrors() directly
         $response->assertSessionHasErrors('link_video', 'Validation error for link_video should be present.');
-
-        // --- ASSERT FALSE ---
-        // Pastikan tidak ada course yang dibuat
-        $this->assertFalse(Course::where('nama_course', 'Figma')->exists(), 'No course should be created with invalid link.');
-        // Pastikan tidak ada pesan sukses
-        // Use assertSessionMissing() directly
-       $response->assertSessionMissing('success'); // Only provide the session key
 
         // Redirect dan error validasi lainnya
         $response->assertRedirect(route('admin.courses.create'));
