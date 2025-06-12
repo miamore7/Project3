@@ -18,8 +18,6 @@
         <p class="text-gray-600 mb-4">Dibuat oleh: {{ $course->user->name ?? 'Tidak diketahui' }}</p>
 
         @php
-            // Sekarang fungsi getYoutubeEmbedUrl() sudah global,
-            // jadi kita bisa langsung memanggilnya.
             $embedUrl = getYoutubeEmbedUrl($course->link_video);
         @endphp
 
