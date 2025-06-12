@@ -17,7 +17,6 @@
         <h1 class="text-3xl font-bold mb-2">{{ $course->nama_course }}</h1>
         <p class="text-gray-600 mb-4">Dibuat oleh: {{ $course->user->name ?? 'Tidak diketahui' }}</p>
 
-        {{-- HAPUS DEFINISI FUNGSI DARI SINI --}}
         @php
             // Sekarang fungsi getYoutubeEmbedUrl() sudah global,
             // jadi kita bisa langsung memanggilnya.
