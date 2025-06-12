@@ -69,19 +69,4 @@ class CourseController extends Controller
         $course->delete();
         return redirect()->route('admin.courses.index')->with('success', 'Course berhasil dihapus');
     }
-    
-    public function like(Course $course)
-    {
-        $user = Auth::user();
-        
-        if ($user->likedCourses()->where('course_id', $course->id)->exists()) {
-            $user->likedCourses()->detach($course->id);
-            $message = 'Course unliked';
-        } else {
-            $user->likedCourses()->attach($course->id);
-            $message = 'Course liked';
-        }
-
-        return back()->with('success', $message);
-    }
 }
