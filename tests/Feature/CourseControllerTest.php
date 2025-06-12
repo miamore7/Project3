@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\Course;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class CourseControllerTest extends TestCase
@@ -17,7 +16,6 @@ class CourseControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->adminUser = User::factory()->create([
             'role' => 'admin',
             'email' => 'admin@example.com',
@@ -26,10 +24,7 @@ class CourseControllerTest extends TestCase
         $this->actingAs($this->adminUser);
     }
 
-    /**
-     * TC-010: Admin dapat menambahkan induk course dengan data lengkap (Sukses).
-     * @test
-     */
+    /** @test */
     public function admin_can_add_parent_course_successfully()
     {
         $courseData = [
@@ -40,22 +35,14 @@ class CourseControllerTest extends TestCase
 
         $response = $this->post(route('admin.courses.store'), $courseData);
 
-        // --- ASSERT TRUE ---
-        // Pastikan data berhasil ditambahkan ke database (berarti hasilnya TRUE bahwa ada data tersebut)
-        $this->assertTrue(Course::where('nama_course', 'Figma')->exists(), 'Course should be created in the database.');
-        // Pastikan admin tetap terautentikasi
-        $this->assertTrue(auth()->check(), 'Admin should remain authenticated.');
-
-        // Redirect dan pesan sukses lainnya
-        $response->assertRedirect(route('admin.courses.index'));
-        $response->assertSessionHas('success', 'Course berhasil ditambahkan');
+        $this->assertTrue(Course::where('nama_course', 'Figma')->exists());
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('admin.courses.index'))
+                 ->assertSessionHas('success', 'Course berhasil ditambahkan');
     }
 
-    /**
-     * TC-010: Admin gagal menambahkan induk course jika nama course kosong.
-     * @test
-     */
-    public function admin_fails_to_add_parent_course_with_empty_name()
+    /** @test */
+    public function admin_fails_to_add_course_with_empty_name()
     {
         $courseData = [
             'nama_course' => '',
@@ -66,25 +53,13 @@ class CourseControllerTest extends TestCase
         $response = $this->from(route('admin.courses.create'))
                          ->post(route('admin.courses.store'), $courseData);
 
-        // --- ASSERT TRUE ---
-        // Pastikan admin tetap terautentikasi
-        $this->assertTrue(auth()->check(), 'Admin should remain authenticated.');
-        // Pastikan ada error validasi untuk 'nama_course'
-        // Use assertSessionHasErrors() directly
-        $response->assertSessionHasErrors('nama_course', 'Validation error for nama_course should be present.');
-
-
-        // Redirect dan error validasi lainnya
-        $response->assertRedirect(route('admin.courses.create'));
-        // This is redundant after assertSessionHasErrors('nama_course') but kept for clarity if preferred
-        $response->assertSessionHasErrors(['nama_course']);
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('admin.courses.create'))
+                 ->assertSessionHasErrors(['nama_course']);
     }
 
-    /**
-     * TC-011: Admin gagal menambahkan induk course jika format link video YouTube salah.
-     * @test
-     */
-    public function admin_fails_to_add_parent_course_with_invalid_youtube_link_format()
+    /** @test */
+    public function admin_fails_to_add_course_with_invalid_youtube_link()
     {
         $courseData = [
             'nama_course' => 'Figma',
@@ -95,21 +70,8 @@ class CourseControllerTest extends TestCase
         $response = $this->from(route('admin.courses.create'))
                          ->post(route('admin.courses.store'), $courseData);
 
-        // --- ASSERT TRUE ---
-        // Pastikan admin tetap terautentikasi
-        $this->assertTrue(auth()->check(), 'Admin should remain authenticated.');
-        // Pastikan ada error validasi untuk 'link_video'
-        // Use assertSessionHasErrors() directly
-        $response->assertSessionHasErrors('link_video', 'Validation error for link_video should be present.');
-
-        // Redirect dan error validasi lainnya
-        $response->assertRedirect(route('admin.courses.create'));
-        // This is redundant after assertSessionHasErrors('link_video') but kept for clarity if preferred
-        $response->assertSessionHasErrors(['link_video']);
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('admin.courses.create'))
+                 ->assertSessionHasErrors(['link_video']);
     }
-
-    /**
-     * Pastikan non-admin tidak dapat menambahkan course.
-     * @test
-     */
 }
