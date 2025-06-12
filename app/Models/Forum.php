@@ -36,5 +36,9 @@ class Forum extends Model
         return $this->belongsToMany(\App\Models\User::class, 'forum_user_requests')
                     ->wherePivot('status', 'accepted');
     }
-    
+    public function users()
+{
+    return $this->belongsToMany(User::class, 'forum_user', 'forum_id', 'user_id');
+}
+
 }

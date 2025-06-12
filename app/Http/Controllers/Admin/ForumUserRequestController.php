@@ -15,20 +15,26 @@ class ForumUserRequestController extends Controller
         return view('admin.forums.requests', compact('requests'));
     }
 
-    public function approve($id)
-    {
-        $request = ForumUserRequest::findOrFail($id);
-        $request->update(['status' => 'approved']);
-        $request->forum->members()->attach($request->user_id);
-        return back()->with('success', 'User approved.');
-    }
+public function approve($id)
+{
+    $request = ForumUserRequest::findOrFail($id);
+    $request->update(['status' => 'approved']);
 
-    public function reject($id)
-    {
-        $request = ForumUserRequest::findOrFail($id);
-        $request->update(['status' => 'rejected']);
-        return back()->with('success', 'User rejected.');
-    }
+    \Log::info('STATUS SET:', ['id' => $request->id, 'status' => $request->status]); // 👈 Tambahkan ini
+
+    $request->forum->members()->attach($request->user_id);
+    return back()->with('success', 'User approved.');
+}
+
+
+
+   public function reject($id)
+{
+    $request = ForumUserRequest::findOrFail($id);
+    $request->update(['status' => 'rejected']);
+    return back()->with('success', 'User rejected.');
+}
+
 
     public function kick(Forum $forum, $userId)
     {
