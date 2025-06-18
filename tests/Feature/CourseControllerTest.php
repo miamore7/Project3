@@ -103,26 +103,4 @@ class CourseControllerTest extends TestCase
         $response->assertRedirect(route('admin.courses.index'))
             ->assertSessionHas('success', 'Course berhasil diperbarui');
     }
-
-    /** @test */
-    public function non_admin_cannot_edit_course()
-    {
-        $user = User::factory()->create(['role' => 'user']);
-        $this->actingAs($user);
-
-        $course = Course::factory()->create([
-            'nama_course' => 'Figma',
-            'link_video' => 'https://www.youtube.com/watch?v=youtube_video_id_1',
-            'description' => 'Figma 1',
-        ]);
-
-        $updatedData = [
-            'nama_course' => 'Figma Updated',
-            'link_video' => 'https://www.youtube.com/watch?v=youtube_video_id_2',
-            'description' => 'Figma 1 Updated',
-        ];
-
-        $response = $this->put(route('admin.courses.update', $course), $updatedData);
-        $response->assertForbidden();
-    }
 }

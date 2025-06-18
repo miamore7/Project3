@@ -16,8 +16,8 @@ class RegisterControllerTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Jane Doe',
             'email' => 'janedoe@example.com',
-            'password' => 'securepassword',
-            'password_confirmation' => 'securepassword',
+            'password' => 'password',
+            'password_confirmation' => 'password',
         ]);
 
         $response->assertRedirect(route('login')); // ubah jika perlu
@@ -46,16 +46,16 @@ class RegisterControllerTest extends TestCase
     {
         // Buat user dengan email yang sudah ada
         User::factory()->create([
-            'email' => 'ellen@example.com',
-            'password' => 'password'
+            'email' => 'existing@example.com',
+    
         ]);
 
         // Coba registrasi dengan email yang sama
         $response = $this->post('/register', [
-            'name' => 'Test User',
-            'email' => 'admin@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'name' => '',
+            'email' => 'existing@example.com',
+            'password' => 'passw5rdrd',
+            'password_confirmation' => 'passwrdrd',
         ]);
 
         // Pastikan ada error validasi pada field 'email'
