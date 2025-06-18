@@ -46,13 +46,14 @@ class RegisterControllerTest extends TestCase
     {
         // Buat user dengan email yang sudah ada
         User::factory()->create([
-            'email' => 'existing@example.com',
+            'email' => 'ellen@example.com',
+            'password' => 'password'
         ]);
 
         // Coba registrasi dengan email yang sama
         $response = $this->post('/register', [
             'name' => 'Test User',
-            'email' => 'existing@example.com',
+            'email' => 'admin@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);

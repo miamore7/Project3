@@ -12,7 +12,7 @@ class Course extends Model
         'nama_course',
         'link_video',
         'description',
-        'idUser'
+        'idUser',
     ];
     
 

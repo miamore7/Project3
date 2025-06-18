@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Course;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Route; // Import Route facade
 
 class CourseControllerTest extends TestCase
 {
@@ -35,10 +36,10 @@ class CourseControllerTest extends TestCase
 
         $response = $this->post(route('admin.courses.store'), $courseData);
 
-        $this->assertTrue(Course::where('nama_course', 'Figma')->exists());
-        $this->assertAuthenticated();
+        $response->assertStatus(302); // Ensure redirect
+        $this->assertDatabaseHas('courses', ['nama_course' => 'Figma']); // Use assertDatabaseHas
         $response->assertRedirect(route('admin.courses.index'))
-                 ->assertSessionHas('success', 'Course berhasil ditambahkan');
+            ->assertSessionHas('success', 'Course berhasil ditambahkan');
     }
 
     /** @test */
@@ -51,11 +52,11 @@ class CourseControllerTest extends TestCase
         ];
 
         $response = $this->from(route('admin.courses.create'))
-                         ->post(route('admin.courses.store'), $courseData);
+            ->post(route('admin.courses.store'), $courseData);
 
-        $this->assertAuthenticated();
+        $response->assertStatus(302); // Ensure redirect
         $response->assertRedirect(route('admin.courses.create'))
-                 ->assertSessionHasErrors(['nama_course']);
+            ->assertSessionHasErrors(['nama_course']);
     }
 
     /** @test */
@@ -68,10 +69,60 @@ class CourseControllerTest extends TestCase
         ];
 
         $response = $this->from(route('admin.courses.create'))
-                         ->post(route('admin.courses.store'), $courseData);
+            ->post(route('admin.courses.store'), $courseData);
 
-        $this->assertAuthenticated();
+        $response->assertStatus(302); // Ensure redirect
         $response->assertRedirect(route('admin.courses.create'))
-                 ->assertSessionHasErrors(['link_video']);
+            ->assertSessionHasErrors(['link_video']);
+    }
+
+    /** @test */
+    public function admin_can_edit_course_successfully()
+    {
+        $course = Course::factory()->create([
+            'nama_course' => 'Figma',
+            'link_video' => 'https://www.youtube.com/watch?v=youtube_video_id_1',
+            'description' => 'Figma 1',
+        ]);
+
+        $updatedData = [
+            'nama_course' => 'Figma Updated',
+            'link_video' => 'https://www.youtube.com/watch?v=youtube_video_id_2',
+            'description' => 'Figma 1 Updated',
+        ];
+
+        $response = $this->put(route('admin.courses.update', $course), $updatedData);
+
+        $response->assertStatus(302); // Ensure redirect
+        $this->assertDatabaseHas('courses', [
+            'id' => $course->id,
+            'nama_course' => 'Figma Updated',
+            'link_video' => 'https://www.youtube.com/watch?v=youtube_video_id_2',
+            'description' => 'Figma 1 Updated',
+        ]);
+        $response->assertRedirect(route('admin.courses.index'))
+            ->assertSessionHas('success', 'Course berhasil diperbarui');
+    }
+
+    /** @test */
+    public function non_admin_cannot_edit_course()
+    {
+        $user = User::factory()->create(['role' => 'user']);
+        $this->actingAs($user);
+
+        $course = Course::factory()->create([
+            'nama_course' => 'Figma',
+            'link_video' => 'https://www.youtube.com/watch?v=youtube_video_id_1',
+            'description' => 'Figma 1',
+        ]);
+
+        $updatedData = [
+            'nama_course' => 'Figma Updated',
+            'link_video' => 'https://www.youtube.com/watch?v=youtube_video_id_2',
+            'description' => 'Figma 1 Updated',
+        ];
+
+        $response = $this->put(route('admin.courses.update', $course), $updatedData);
+        $response->assertForbidden();
     }
 }
